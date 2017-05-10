@@ -2,78 +2,33 @@
 <!-- This file was auto-generated from WSDL -->
 <!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
 <serviceGroup>
-    <service name="ShoppingCartWS">
+    <service name="UserManagementWS">
         <messageReceivers>
-            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="sos.t3.a32.ShoppingCartWS.ShoppingCartWSMessageReceiverInOut"/>
-            <messageReceiver mep="http://www.w3.org/ns/wsdl/robust-in-only" class="sos.t3.a32.ShoppingCartWS.ShoppingCartWSMessageReceiverRobustInOnly"/>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="es.upm.fi.sos.t3.usermanagement.UserManagementWSMessageReceiverInOut"/>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/robust-in-only" class="es.upm.fi.sos.t3.usermanagement.UserManagementWSMessageReceiverRobustInOnly"/>
         </messageReceivers>
-        <parameter name="ServiceClass">sos.t3.a32.ShoppingCartWS.ShoppingCartWSSkeleton</parameter>
+        <parameter name="ServiceClass">es.upm.fi.sos.t3.usermanagement.UserManagementWSSkeleton</parameter>
         <parameter name="useOriginalwsdl">true</parameter>
         <parameter name="modifyUserWSDLPortAddress">true</parameter>
-        <operation name="productsInCart" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:productsInCart</actionMapping>
-            <outputActionMapping>urn:productsInCartResponse</outputActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:productsInCartNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="getProductAvailableUnits" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:getProductAvailableUnits</actionMapping>
-            <outputActionMapping>urn:getProductAvailableUnitsResponse</outputActionMapping>
-            <faultActionMapping faultName="ProductUnknownError">urn:getProductAvailableUnitsProductUnknownError</faultActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:getProductAvailableUnitsNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="budget" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:budget</actionMapping>
-            <outputActionMapping>urn:budgetResponse</outputActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:budgetNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="login" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:login</actionMapping>
-            <outputActionMapping>urn:loginResponse</outputActionMapping>
-        </operation>
-        <operation name="costOfCart" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:costOfCart</actionMapping>
-            <outputActionMapping>urn:costOfCartResponse</outputActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:costOfCartNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="getProductsList" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:getProductsList</actionMapping>
-            <outputActionMapping>urn:getProductsListResponse</outputActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:getProductsListNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="checkProductAvailability" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:checkProductAvailability</actionMapping>
-            <outputActionMapping>urn:checkProductAvailabilityResponse</outputActionMapping>
-            <faultActionMapping faultName="ProductUnknownError">urn:checkProductAvailabilityProductUnknownError</faultActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:checkProductAvailabilityNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="addToCart" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:addToCart</actionMapping>
-            <outputActionMapping>urn:addToCartResponse</outputActionMapping>
-            <faultActionMapping faultName="ProductUnknownError">urn:addToCartProductUnknownError</faultActionMapping>
-            <faultActionMapping faultName="NotEnoughUnitsError">urn:addToCartNotEnoughUnitsError</faultActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:addToCartNotValidSessionError</faultActionMapping>
-        </operation>
-        <operation name="logout" mep="http://www.w3.org/ns/wsdl/robust-in-only" namespace="http://shoppingCart.t3.sos.fi.upm.es">
+        <operation name="logout" mep="http://www.w3.org/ns/wsdl/robust-in-only" namespace="http://usermanagement.t3.sos.fi.upm.es">
             <actionMapping>urn:logout</actionMapping>
             <outputActionMapping>urn:logoutResponse</outputActionMapping>
         </operation>
-        <operation name="buy" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:buy</actionMapping>
-            <outputActionMapping>urn:buy</outputActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:buyNotValidSessionError</faultActionMapping>
-            <faultActionMapping faultName="NotEnoughBudgetError">urn:buyNotEnoughBudgetError</faultActionMapping>
+        <operation name="login" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://usermanagement.t3.sos.fi.upm.es">
+            <actionMapping>urn:login</actionMapping>
+            <outputActionMapping>urn:loginResponse</outputActionMapping>
         </operation>
-        <operation name="removeFromCart" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:removeFromCart</actionMapping>
-            <outputActionMapping>urn:removeFromCartResponse</outputActionMapping>
-            <faultActionMapping faultName="ProductUnknownError">urn:removeFromCartProductUnknownError</faultActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:removeFromCartNotValidSessionError</faultActionMapping>
+        <operation name="addUser" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://usermanagement.t3.sos.fi.upm.es">
+            <actionMapping>urn:addUser</actionMapping>
+            <outputActionMapping>urn:addUserResponse</outputActionMapping>
         </operation>
-        <operation name="getProductPrice" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://shoppingCart.t3.sos.fi.upm.es">
-            <actionMapping>urn:getProductPrice</actionMapping>
-            <outputActionMapping>urn:getProductPriceResponse</outputActionMapping>
-            <faultActionMapping faultName="ProductUnknownError">urn:getProductPriceProductUnknownError</faultActionMapping>
-            <faultActionMapping faultName="NotValidSessionError">urn:getProductPriceNotValidSessionError</faultActionMapping>
+        <operation name="changePassword" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://usermanagement.t3.sos.fi.upm.es">
+            <actionMapping>urn:changePassword</actionMapping>
+            <outputActionMapping>urn:changePasswordResponse</outputActionMapping>
+        </operation>
+        <operation name="removeUser" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://usermanagement.t3.sos.fi.upm.es">
+            <actionMapping>urn:removeUser</actionMapping>
+            <outputActionMapping>urn:removeUserResponse</outputActionMapping>
         </operation>
     </service>
 </serviceGroup>
