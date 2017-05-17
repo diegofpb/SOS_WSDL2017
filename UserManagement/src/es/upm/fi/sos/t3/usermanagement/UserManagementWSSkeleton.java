@@ -145,9 +145,15 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response removeUser(
 			es.upm.fi.sos.t3.usermanagement.Username username) {
-		// TODO : fill this with the necessary business logic
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#removeUser");
+		Response response = new Response();
+		response.setResponse(false);
+		if(isAdmin && isLogged){
+			if(usersDb.get(username)!=null){
+				usersDb.remove(username);
+				response.setResponse(true);
+				}
+		}
+		return response;
 	}
 
 }
