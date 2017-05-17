@@ -6,6 +6,8 @@
  */
 package es.upm.fi.sos.t3.usermanagement;
 
+import java.util.HashMap;
+
 /**
  * UserManagementWSSkeleton java skeleton for the axisService
  */
@@ -16,6 +18,22 @@ public class UserManagementWSSkeleton {
 	 * 
 	 * @return
 	 */
+	
+	private static HashMap<String, User> usersDb = new HashMap<String, User>();
+	private User sesionUser;
+	
+	
+	// Create the admin user when Skeleton starts if db is empty..
+	public UserManagementWSSkeleton() {
+		if (usersDb.isEmpty()){
+			User user = new User();
+			user.setName("admin");
+			user.setPwd("pepe");
+			
+			usersDb.put("admin", user);
+		}
+	}
+
 
 	public void logout(
 
@@ -33,6 +51,9 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response login(
 			es.upm.fi.sos.t3.usermanagement.User user) {
+		
+		
+		
 		// TODO : fill this with the necessary business logic
 		throw new java.lang.UnsupportedOperationException("Please implement "
 				+ this.getClass().getName() + "#login");
