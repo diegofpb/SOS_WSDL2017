@@ -18,32 +18,33 @@ public class UserManagementWSSkeleton {
 	 * 
 	 * @return
 	 */
-	
+
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
 	private User sesionUser;
-	private static Boolean isAdmin;
-	private Boolean isLoged;
-	
-	
+	private static Boolean isAdmin; // Conexión administrador
+	private Boolean isLogged; // Conexión usuario
+
+
 	// Create the admin user when Skeleton starts if db is empty..
 	public UserManagementWSSkeleton() {
 		if (usersDb.isEmpty()){
 			User user = new User();
 			user.setName("admin");
 			user.setPwd("pepe");
-			
+
 			usersDb.put("admin", user);
 		}
 		isAdmin = false;
-		isLoged = false;
+		isLogged = false;
 	}
 
 
-	public void logout(
-
-	) {
+	public void logout() {
+		if(isLogged)
+			isLogged = false;
+		if(isAdmin)
+			isAdmin = false;
 		// TODO : fill this with the necessary business logic
-
 	}
 
 	/**
@@ -55,8 +56,8 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response login(
 			es.upm.fi.sos.t3.usermanagement.User user) {
-		
-		
+
+
 		// TODO : fill this with the necessary business logic
 		throw new java.lang.UnsupportedOperationException("Please implement "
 				+ this.getClass().getName() + "#login");
@@ -85,9 +86,15 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response changePassword(
 			es.upm.fi.sos.t3.usermanagement.PasswordPair passwordPair) {
-		// TODO : fill this with the necessary business logic
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#changePassword");
+		Response response = new Response();
+		response.setResponse(false);
+		if(isLogged){
+			if(sesionUser.getPwd().equals(passwordPair.getOldpwd())){
+			sesionUser.setPwd(passwordPair.getNewpwd());
+			response.setResponse(true);
+			}
+		}
+		return response;
 	}
 
 	/**
