@@ -21,6 +21,8 @@ public class UserManagementWSSkeleton {
 	
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
 	private User sesionUser;
+	private static Boolean isAdmin;
+	private Boolean isLoged;
 	
 	
 	// Create the admin user when Skeleton starts if db is empty..
@@ -32,6 +34,8 @@ public class UserManagementWSSkeleton {
 			
 			usersDb.put("admin", user);
 		}
+		isAdmin = false;
+		isLoged = false;
 	}
 
 
@@ -51,7 +55,6 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response login(
 			es.upm.fi.sos.t3.usermanagement.User user) {
-		
 		
 		
 		// TODO : fill this with the necessary business logic
