@@ -22,7 +22,7 @@ public class UserManagementWSSkeleton {
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
 	private User sesionUser;
 	private static Boolean isAdmin;
-	private Boolean isLoged;
+	private Boolean isLogged;
 	
 	
 	// Create the admin user when Skeleton starts if db is empty..
@@ -30,12 +30,12 @@ public class UserManagementWSSkeleton {
 		if (usersDb.isEmpty()){
 			User user = new User();
 			user.setName("admin");
-			user.setPwd("pepe");
+			user.setPwd("admin");
 			
 			usersDb.put("admin", user);
 		}
 		isAdmin = false;
-		isLoged = false;
+		this.isLogged = false;
 	}
 
 
@@ -55,11 +55,33 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response login(
 			es.upm.fi.sos.t3.usermanagement.User user) {
+		Response response = new Response();
+		response.setResponse(false);
+	
+		// Look if user exists.
+		if(usersDb.get(user.getName())==null || 
+				(user.getName().equals("admin") && isAdmin)){
+			return response;
+		}
 		
+		// Get the user in DB.
+		User userInDb = usersDb.get(user.getName());
 		
-		// TODO : fill this with the necessary business logic
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#login");
+		// Look if user is equal (name and pass).
+		if(!user.equals(userInDb)){
+			return response;
+		}
+		
+		// Only if is admin, then set admin.		
+		isAdmin = userInDb.getName().equals("admin");
+		
+		// Set logged to the user.
+		isLogged = true;
+		
+		sesionUser = userInDb;
+		response.setResponse(true);
+		return response;
+		
 	}
 
 	/**
@@ -71,9 +93,26 @@ public class UserManagementWSSkeleton {
 
 	public es.upm.fi.sos.t3.usermanagement.Response addUser(
 			es.upm.fi.sos.t3.usermanagement.User user1) {
-		// TODO : fill this with the necessary business logic
-		throw new java.lang.UnsupportedOperationException("Please implement "
-				+ this.getClass().getName() + "#addUser");
+		
+		Response response = new Response();
+		response.setResponse(false);
+		
+		// Only a logged admin can perform this operation.
+		if(!isLogged || !isAdmin){
+			return response;
+		}
+		
+		// User1 name is at the DB yet.
+		if(user1.getName().equals(usersDb.get(user1.getName()))){
+			return response;
+		}
+		
+		// At here, we add the user.
+		usersDb.put(user1.getName(), user1);
+		
+		response.setResponse(true);
+		return response;
+		
 	}
 
 	/**
