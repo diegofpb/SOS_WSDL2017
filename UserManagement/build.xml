@@ -5,7 +5,7 @@
     <property name="axis2.home" value="${env.AXIS2_HOME}"/>
     <property name="project.base.dir" value="."/>
     <property name="maven.class.path" value=""/>
-    <property name="name" value="ShoppingCartWS"/>
+    <property name="name" value="UserManagementWS"/>
     <property name="src" value="${project.base.dir}/src"/>
     <property name="test" value="${project.base.dir}/test"/>
     <property name="build" value="${project.base.dir}/build"/>
