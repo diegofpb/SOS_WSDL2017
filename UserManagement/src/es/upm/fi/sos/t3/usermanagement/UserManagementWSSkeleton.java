@@ -6,7 +6,9 @@
  */
 package es.upm.fi.sos.t3.usermanagement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * UserManagementWSSkeleton java skeleton for the axisService
@@ -20,6 +22,7 @@ public class UserManagementWSSkeleton {
 	 */
 
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
+	private static List<String> activeUsers = new ArrayList<>();
 	private User sesionUser;
 	private static Boolean isAdmin; // Conexión administrador
 	private Boolean isLogged; // Conexión usuario
@@ -44,7 +47,6 @@ public class UserManagementWSSkeleton {
 			isLogged = false;
 		if(isAdmin)
 			isAdmin = false;
-		// TODO : fill this with the necessary business logic
 	}
 
 	/**
@@ -58,26 +60,36 @@ public class UserManagementWSSkeleton {
 			es.upm.fi.sos.t3.usermanagement.User user) {
 		Response response = new Response();
 		response.setResponse(false);
+		
+		
+		// Si vuelve a iniciar sesion a pesar de tenerla iniciada.
+		if((sesionUser.getName().equals(user.getName())) && isLogged){
+			response.setResponse(true);
+			return response;
+		}
 	
-		// Look if user exists.
+		// Buscamos si usuario existe, y si iniciase sesion y es admin.
 		if(usersDb.get(user.getName())==null || 
 				(user.getName().equals("admin") && isAdmin)){
 			return response;
 		}
 		
-		// Get the user in DB.
+		// Buscamos el usuario en la DB.
 		User userInDb = usersDb.get(user.getName());
 		
 		// Look if user is equal (name and pass).
-		if(!user.equals(userInDb)){
+		if(!user.getPwd().equals(userInDb.getPwd())){
 			return response;
 		}
 		
-		// Only if is admin, then set admin.		
+		// Solo si es admin, seteamos variable admin a true.		
 		isAdmin = userInDb.getName().equals("admin");
 		
-		// Set logged to the user.
+		// Loggeamos usuario.
 		isLogged = true;
+		
+		// Anadimos instancia de usuario.
+		activeUsers.add(user.getName());
 		
 		sesionUser = userInDb;
 		response.setResponse(true);
@@ -127,6 +139,7 @@ public class UserManagementWSSkeleton {
 			es.upm.fi.sos.t3.usermanagement.PasswordPair passwordPair) {
 		Response response = new Response();
 		response.setResponse(false);
+		
 		if(isLogged){
 			if(sesionUser.getPwd().equals(passwordPair.getOldpwd())){
 			sesionUser.setPwd(passwordPair.getNewpwd());
@@ -147,11 +160,25 @@ public class UserManagementWSSkeleton {
 			es.upm.fi.sos.t3.usermanagement.Username username) {
 		Response response = new Response();
 		response.setResponse(false);
+		
 		if(isAdmin && isLogged){
-			if(usersDb.get(username)!=null){
-				usersDb.remove(username);
-				response.setResponse(true);
-				}
+			
+			// Si nuestra sesion es la misma, no podemos.
+			if(sesionUser.getName().equals(username.getUsername()))
+				return response;
+			
+			// Usuario ha de existir en el sistema.
+			if(usersDb.get(username)==null)
+				return response;
+			
+			
+			// Usuario no puede tener ninguna instancia iniciada
+			if(activeUsers.contains(username.getUsername()))
+				return response;
+			
+			usersDb.remove(username);
+			response.setResponse(true);
+			
 		}
 		return response;
 	}
