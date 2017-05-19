@@ -43,8 +43,10 @@ public class UserManagementWSSkeleton {
 
 
 	public void logout() {
-		if(isLogged)
+		if(isLogged){
 			isLogged = false;
+			activeUsers.remove(sesionUser.getName());
+		}
 		if(isAdmin)
 			isAdmin = false;
 	}
