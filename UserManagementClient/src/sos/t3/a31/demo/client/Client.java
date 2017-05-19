@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import sos.t3.a31.demo.client.UserManagementWSStub.PasswordPair;
 import sos.t3.a31.demo.client.UserManagementWSStub.Response;
 import sos.t3.a31.demo.client.UserManagementWSStub.User;
+import sos.t3.a31.demo.client.UserManagementWSStub.Username;
 
 public class Client {
 	public static void main(String[] args) throws RemoteException{
@@ -59,7 +60,16 @@ public class Client {
 		if(res)
 			System.out.println("Contraseña cambiada" + res);
 		System.out.println("Error cambio contraseña" + res);
-
+		
+		// Test login with diff psw
+		response1 = stub1.login(admin);
+		res = response1.getResponse();
+		System.out.println("Contraseña errónea" + res);
+		admin.setPwd("newpsw");
+		response1 = stub1.login(admin);
+		res = response1.getResponse();
+		System.out.println("Login correcto" + res);
+		
 		// Attach new users
 		stub1.addUser(user1);
 		stub1.addUser(user2);
@@ -68,11 +78,23 @@ public class Client {
 		stub1.logout();
 
 		// login different instances
-		response1 = stub1.login(user1);
-		response2 = stub2.login(user1);
+		stub1.login(user1);
+		stub2.login(user1);
+		stub1.login(admin);
 		
+		// Remove user connected
+		
+		Username username = new Username();
+		username.setUsername("username");;
+		stub1.removeUser(username);
+		System.out.println("Error: Usuario conectado" + res);
+		
+		stub1.logout();
 		stub2.logout();
 		
+		// Remove user disconnected
+		
+		stub1.login(admin);
 
 
 		System.out.println();
