@@ -14,3 +14,4 @@ hs_err_pid*
 .metadata
 .project
 .classpath
+org.eclipse.jdt.core.prefs
