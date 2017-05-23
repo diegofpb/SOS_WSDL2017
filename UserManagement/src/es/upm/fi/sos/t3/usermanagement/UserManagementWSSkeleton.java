@@ -23,8 +23,8 @@ public class UserManagementWSSkeleton {
 
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
 	private static List<String> activeUsers = new ArrayList<>();
-	private User sesionUser;
-	private static Boolean isAdmin; // Conexión administrador
+	private User sessionUser;
+	//private static Boolean isAdmin; // Conexión administrador
 	private Boolean isLogged; // Conexión usuario
 
 
@@ -36,7 +36,8 @@ public class UserManagementWSSkeleton {
 			user.setPwd("admin");
 			usersDb.put("admin", user);
 		}
-		isAdmin = false;
+		//isAdmin = false;
+		sessionUser = null;
 		this.isLogged = false;
 	}
 
@@ -44,10 +45,9 @@ public class UserManagementWSSkeleton {
 	public void logout() {
 		if(isLogged){
 			isLogged = false;
-			activeUsers.remove(sesionUser.getName());
+			activeUsers.remove(sessionUser.getName());
+			sessionUser = null;
 		}
-		if(isAdmin)
-			isAdmin = false;
 	}
 
 	/**
@@ -57,46 +57,39 @@ public class UserManagementWSSkeleton {
 	 * @return response
 	 */
 
-	public es.upm.fi.sos.t3.usermanagement.Response login(
-			es.upm.fi.sos.t3.usermanagement.User user) {
+	public Response login(User user) {
 		Response response = new Response();
 		response.setResponse(false);
-		
-		
+
 		// Si vuelve a iniciar sesion a pesar de tenerla iniciada.
-		if(sesionUser != null && sesionUser.getName().equals(user.getName()) 
+		if(sessionUser != null && user.getName().equals(sessionUser.getName()) 
 				&& isLogged){
 			response.setResponse(true);
 			return response;
 		}
-	
-		// Buscamos si usuario existe, y si iniciase sesion y es admin.
-		if(usersDb.get(user.getName())==null || 
-				(user.getName().equals("admin") && isAdmin)){
+
+		// Buscamos si usuario existe.
+		User userInDb = usersDb.get(user.getName());
+		if(userInDb==null){
 			return response;
 		}
-		
-		// Buscamos el usuario en la DB.
-		User userInDb = usersDb.get(user.getName());
-		
+
 		// Look if user is equal (name and pass).
 		if(!user.getPwd().equals(userInDb.getPwd())){
 			return response;
 		}
-		
-		// Solo si es admin, seteamos variable admin a true.		
-		isAdmin = userInDb.getName().equals("admin");
-		
+
 		// Loggeamos usuario.
-		isLogged = true;
-		
-		// Anadimos instancia de usuario.
-		activeUsers.add(user.getName());
-		
-		sesionUser = userInDb;
-		response.setResponse(true);
+		if(!isLogged){
+			isLogged = true;
+
+			// Anadimos instancia de usuario.
+			activeUsers.add(user.getName());
+
+			sessionUser = userInDb;
+			response.setResponse(true);
+		}
 		return response;
-		
 	}
 
 	/**
@@ -106,28 +99,26 @@ public class UserManagementWSSkeleton {
 	 * @return response2
 	 */
 
-	public es.upm.fi.sos.t3.usermanagement.Response addUser(
-			es.upm.fi.sos.t3.usermanagement.User user1) {
-		
+	public Response addUser(User user1) {
+
 		Response response = new Response();
 		response.setResponse(false);
-		
+
 		// Only a logged admin can perform this operation.
-		if(!isLogged || !isAdmin){
+		if(!isLogged || !sessionUser.getName().equals("admin"))
+			return response;
+
+		// User1 is at the DB yet.
+		if(usersDb.containsKey(user1.getName())){
 			return response;
 		}
-		
-		// User1 name is at the DB yet.
-		if(user1.getName().equals(usersDb.get(user1.getName()))){
-			return response;
-		}
-		
+
 		// At here, we add the user.
 		usersDb.put(user1.getName(), user1);
-		
+
 		response.setResponse(true);
 		return response;
-		
+
 	}
 
 	/**
@@ -137,15 +128,15 @@ public class UserManagementWSSkeleton {
 	 * @return response3
 	 */
 
-	public es.upm.fi.sos.t3.usermanagement.Response changePassword(
-			es.upm.fi.sos.t3.usermanagement.PasswordPair passwordPair) {
+	public Response changePassword(
+			PasswordPair passwordPair) {
 		Response response = new Response();
 		response.setResponse(false);
-		
+
 		if(isLogged){
-			if(sesionUser.getPwd().equals(passwordPair.getOldpwd())){
-			sesionUser.setPwd(passwordPair.getNewpwd());
-			response.setResponse(true);
+			if(sessionUser.getPwd().equals(passwordPair.getOldpwd())){
+				sessionUser.setPwd(passwordPair.getNewpwd());
+				response.setResponse(true);
 			}
 		}
 		return response;
@@ -158,30 +149,31 @@ public class UserManagementWSSkeleton {
 	 * @return response4
 	 */
 
-	public es.upm.fi.sos.t3.usermanagement.Response removeUser(
-			es.upm.fi.sos.t3.usermanagement.Username username) {
+	public Response removeUser(Username username) {
 		Response response = new Response();
 		response.setResponse(false);
-		
-		if(isAdmin && isLogged){
-			
-			// Si nuestra sesion es la misma, no podemos.
-			if(sesionUser.getName().equals(username.getUsername()))
-				return response;
-			
-			// Usuario ha de existir en el sistema.
-			if(usersDb.get(username)==null)
-				return response;
-			
-			
-			// Usuario no puede tener ninguna instancia iniciada
-			if(activeUsers.contains(username.getUsername()))
-				return response;
-			
+
+		//if(sessionUser == null)
+		//return response;
+		//if(sessionUser.getName().equals("admin") && isLogged){
+
+		if(!isLogged || !sessionUser.getName().equals("admin"))
+			return response;
+
+		// Si nuestra sesion es la misma, no podemos.
+		if(sessionUser.getName().equals(username.getUsername()))
+			return response;
+
+		// Usuario ha de existir en el sistema.
+		if(usersDb.get(username)==null)
+			return response;
+
+		// Usuario no puede tener ninguna instancia iniciada
+		if(!activeUsers.contains(username)){
 			usersDb.remove(username);
 			response.setResponse(true);
-			
 		}
+
 		return response;
 	}
 
