@@ -19,7 +19,6 @@ public class Client {
 		stub2._getServiceClient().getOptions().setManageSession(true);
 
 		Response response = new Response();
-		boolean res;
 
 		// Superuser
 		User admin = new User();
@@ -63,20 +62,18 @@ public class Client {
 		// Login adminFalso
 		System.out.println("\nPrueba 1: Logueamos con admin incorrecto (admin,pepe), FALSE");
 		response = stub1.login(adminFalso);
-		res = response.getResponse();
-		System.out.println("Login adminFalso: " + res);
+		System.out.println("Login adminFalso: " + response.getResponse());
 
 		// Login admin
 		System.out.println("\nPrueba 2: Logueamos con admin correcto (admin,admin), TRUE");
 		response = stub1.login(admin);
-		res = response.getResponse();
-		System.out.println("Login admin: " + res);
+		System.out.println("Login admin: " + response.getResponse());
 
 		// Login usuario inexistente
 		System.out.println("\nPrueba 3: Logueamos con user1 inexistente en el sistema (user1,user1), FALSE");
 		response = stub2.login(user1);
-		res = response.getResponse();
-		System.out.println("Login user inexistente: " + res);
+		
+		System.out.println("Login user inexistente: " + response.getResponse());
 
 		// Desloguear
 		System.out.println("\nPrueba 4: Desloguear a admin");

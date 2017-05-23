@@ -34,7 +34,6 @@ public class UserManagementWSSkeleton {
 			User user = new User();
 			user.setName("admin");
 			user.setPwd("admin");
-			
 			usersDb.put("admin", user);
 		}
 		isAdmin = false;
@@ -65,7 +64,8 @@ public class UserManagementWSSkeleton {
 		
 		
 		// Si vuelve a iniciar sesion a pesar de tenerla iniciada.
-		if((sesionUser.getName().equals(user.getName())) && isLogged){
+		if(sesionUser != null && sesionUser.getName().equals(user.getName()) 
+				&& isLogged){
 			response.setResponse(true);
 			return response;
 		}
