@@ -29,7 +29,7 @@ public class Client {
 		User adminFalso = new User();
 		adminFalso.setName("admin");
 		adminFalso.setPwd("pepe");
-		System.out.println("Admin creado");
+		System.out.println("Adminfalso creado");
 
 		// Tester users 
 		User user1 = new User();
@@ -109,7 +109,8 @@ public class Client {
 		System.out.println("\nPrueba 9: Logueamos user1 en misma sesion de admin, FALSE");
 		response = stub1.login(user1);
 		System.out.println("Login user1 en sesion de admin: " + response.getResponse());
-
+		response = stub1.login(user2);
+		System.out.println("Login user2 en sesion de admin: " + response.getResponse());
 
 		// Segundo login admin con contraseña incorrecta
 		System.out.println("\nPrueba 10: Logueamos segundo admin con pass incorrecta, TRUE");
@@ -123,14 +124,14 @@ public class Client {
 		psw.setOldpwd("admin");
 		psw.setNewpwd("newpsw");
 		response = stub1.changePassword(psw);
-		System.out.println("Contraseña cambiada " + response.getResponse());
+		System.out.println("Contraseña cambiada: " + response.getResponse());
 
 
 		// Change password admin incorrect oldpsw
 		System.out.println("\nPrueba 12: Cambiamos la password a admin metiendo mal antigua, FALSE");
 		psw.setOldpwd("admin");
 		response = stub1.changePassword(psw);
-		System.out.println("Error al cambiar contraseña" + response.getResponse());
+		System.out.println("Error al cambiar contraseña: " + response.getResponse());
 
 
 		// Test login with old psw

@@ -2,7 +2,7 @@
 <!-- This file was auto-generated from WSDL -->
 <!-- by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST) -->
 <serviceGroup>
-    <service name="UserManagementWS">
+    <service name="UserManagementWS" scope="soapsession">
         <messageReceivers>
             <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="es.upm.fi.sos.t3.usermanagement.UserManagementWSMessageReceiverInOut"/>
             <messageReceiver mep="http://www.w3.org/ns/wsdl/robust-in-only" class="es.upm.fi.sos.t3.usermanagement.UserManagementWSMessageReceiverRobustInOnly"/>
