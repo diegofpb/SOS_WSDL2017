@@ -24,8 +24,7 @@ public class UserManagementWSSkeleton {
 	private static HashMap<String, User> usersDb = new HashMap<String, User>();
 	private static List<String> activeUsers = new ArrayList<>();
 	private User sessionUser;
-	//private static Boolean isAdmin; // Conexión administrador
-	private Boolean isLogged; // Conexión usuario
+	private Boolean isLogged; // Conexión sesión
 
 
 	// Create the admin user when Skeleton starts if db is empty..
@@ -36,7 +35,7 @@ public class UserManagementWSSkeleton {
 			user.setPwd("admin");
 			usersDb.put("admin", user);
 		}
-		//isAdmin = false;
+		
 		sessionUser = null;
 		this.isLogged = false;
 	}
@@ -160,20 +159,18 @@ public class UserManagementWSSkeleton {
 		if(!isLogged || !sessionUser.getName().equals("admin"))
 			return response;
 
-		// Si nuestra sesion es la misma, no podemos.
-		if(sessionUser.getName().equals(username.getUsername()))
-			return response;
-
 		// Usuario ha de existir en el sistema.
-		if(usersDb.get(username)==null)
+		if(usersDb.get(username.getUsername())==null)
 			return response;
 
 		// Usuario no puede tener ninguna instancia iniciada
-		if(!activeUsers.contains(username)){
-			usersDb.remove(username);
-			response.setResponse(true);
+		if(activeUsers.contains(username.getUsername())){
+			return response;
 		}
 
+		usersDb.remove(username.getUsername());
+		response.setResponse(true);
+		
 		return response;
 	}
 
