@@ -152,10 +152,6 @@ public class UserManagementWSSkeleton {
 		Response response = new Response();
 		response.setResponse(false);
 
-		//if(sessionUser == null)
-		//return response;
-		//if(sessionUser.getName().equals("admin") && isLogged){
-
 		if(!isLogged || !sessionUser.getName().equals("admin"))
 			return response;
 
